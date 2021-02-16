@@ -9,7 +9,12 @@ Uses [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) 
 
 Making the assumption you have an AWS Account Already and a valid set of creds configured:
 
-1. Create a Secret named **valheimServerPass** in the same region you plan to deploy the CDK Stack - we reference it by name [here](lib/valheim-server-aws-cdk-stack.ts#L14-17) and pass that value to our container as a secret. valheim-server-docker requires this to be AT LEAST 5 characters (ideally much more).
+1. Create a Secret named **valheimServerPass** in the same region you plan to deploy the CDK Stack - we reference it by name [here](lib/valheim-server-aws-cdk-stack.ts#L14-17) and pass that value to our container as a secret. valheim-server-docker requires this to be AT LEAST 5 characters (ideally much more). The secret string should be a key value pair as below: 
+```bash
+aws secretsmanager create-secret --name valheimServerPass --secret-string '{"VALHEIM_SERVER_PASS":"SuperSecretServerPassword"}'
+```
+
+
 2. Clone down our source code:
 ```
 git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
