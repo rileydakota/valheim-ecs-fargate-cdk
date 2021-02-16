@@ -1,7 +1,5 @@
 import * as cdk from "@aws-cdk/core";
 import * as ec2 from "@aws-cdk/aws-ec2";
-import * as iam from "@aws-cdk/aws-iam";
-import * as ecr from "@aws-cdk/aws-ecr";
 import * as ecs from "@aws-cdk/aws-ecs";
 import * as secretsManager from "@aws-cdk/aws-secretsmanager";
 import * as efs from "@aws-cdk/aws-efs";
