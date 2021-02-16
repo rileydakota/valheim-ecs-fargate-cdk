@@ -1,5 +1,5 @@
 # valheim-ecs-fargate-cdk
-![this could be you!](https://media.giphy.com/media/4UjpKfoiC7G8WhE9c9/giphy.gif)
+![this could be you!](giphy.gif)
 
 This is a CDK Project for spinning up a [Valheim](https://store.steampowered.com/app/892970/Valheim/) game server on AWS Using [ECS Fargate](https://aws.amazon.com/fargate/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&fargate-blogs.sort-by=item.additionalFields.createdDate&fargate-blogs.sort-order=desc) and [Amazon EFS](https://aws.amazon.com/efs/)!
 
