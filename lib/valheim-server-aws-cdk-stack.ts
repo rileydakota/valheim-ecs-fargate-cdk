@@ -64,9 +64,9 @@ export class ValheimServerAwsCdkStack extends cdk.Stack {
       image: ecs.ContainerImage.fromRegistry("lloesche/valheim-server"),
       logging: ecs.LogDrivers.awsLogs({ streamPrefix: "ValheimServer" }),
       environment: {
-        SERVER_NAME: "TheBoyzGoPillaging",
+        SERVER_NAME: "VALHEIM-SERVER-AWS-ECS",
         SERVER_PORT: "2456",
-        WORLD_NAME: "ValheimBoysWorld",
+        WORLD_NAME: "VALHEIM-WORLD-FILE",
         SERVER_PUBLIC: "1",
         UPDATE_INTERVAL: "900",
         BACKUPS_INTERVAL: "3600",
