@@ -17,8 +17,6 @@ export class ValheimServerAwsCdkStack extends cdk.Stack {
       "valheimServerPass"
     );
 
-    const elasticIp = new ec2.CfnEIP(this, "valheimEIP");
-
     const vpc = new ec2.Vpc(this, "valheimVpc", {
       cidr: "10.0.0.0/24",
       subnetConfiguration: [
