@@ -1,14 +1,20 @@
-# Welcome to your CDK TypeScript project!
+# valheim-ecs-fargate-cdk
+This is a CDK Project for spinning up a [Valheim](https://store.steampowered.com/app/892970/Valheim/) game server on AWS Using [ECS Fargate](https://aws.amazon.com/fargate/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&fargate-blogs.sort-by=item.additionalFields.createdDate&fargate-blogs.sort-order=desc) and [Amazon EFS](https://aws.amazon.com/efs/)!
 
-This is a blank project for TypeScript development with CDK.
+Uses [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) - thanks to lloesche for putting it together!
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Installation/Deployment
 
-## Useful commands
+Coming soon
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `cdk deploy` deploy this stack to your default AWS account/region
-- `cdk diff` compare deployed stack with current state
-- `cdk synth` emits the synthesized CloudFormation template
+## Configuration
+
+Coming soon
+
+## Common Problems/FAQ
+
+Coming soon
+
+## To-Do
+
+Coming soon
