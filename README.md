@@ -18,13 +18,13 @@ aws secretsmanager create-secret --name valheimServerPass --secret-string '{"VAL
 
 2. Clone down our source code:
 
-```
+```bash
 git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
 ```
 
-3. Install depedencies:
+3. Install dependencies:
 
-```
+```bash
 npm i
 ```
 
