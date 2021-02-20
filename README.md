@@ -6,6 +6,13 @@ This is a CDK Project for spinning up a [Valheim](https://store.steampowered.com
 
 Uses [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) - thanks to lloesche for putting it together!
 
+## Table of Contents
+- [Installation](#installationdeployment)
+- [Configuration](#configuration)
+- [Cost Information](#solution-cost-information)
+- [FAQ](#common-problemsfaq)
+  * [Find your server IP](#how-do-i-find-the-ip-of-my-server)
+
 ## Installation/Deployment
 
 Making the assumption you have an AWS Account Already and a valid set of creds configured:
@@ -51,6 +58,10 @@ npx cdk deploy
 
 Coming soon
 
+## Solution Cost Information
+
+Coming soon
+
 ## Common Problems/FAQ
 
 ### How do I find the IP of my server?
@@ -64,6 +75,7 @@ At the bottom half of the screen - click the Tasks tab tab - you should see a "T
 
 Finally - the public IP of your server will be listed here - under the Network section. Connect to the server using the IP and port 2456!
 ![Task Information Page](.img/TaskInfo.PNG)
+
 ---
 
 ## To-Do
