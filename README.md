@@ -53,20 +53,17 @@ Coming soon
 
 ## Common Problems/FAQ
 
-#### How do I find the IP of my server?
+### How do I find the IP of my server?
 
-![ECS Service Page](.img/Cluster.PNG)
 
 Via the AWS Console - goto the ECS Service page (click the services dropdown and select ECS - or click [here](https://us-east-2.console.aws.amazon.com/ecs) if you are in us-east-2). From here - you will see a Cluster listed. Click the cluster name to continue to the details page.
-
-![Cluster Information Page](.img/TaskTab.PNG)
+![ECS Service Page](.img/Cluster.PNG)
 
 At the bottom half of the screen - click the Tasks tab tab - you should see a "Task ID". Click the task id to continue to the next page.
-
-![Task Information Page](.img/TaskInfo.PNG)
+![Cluster Information Page](.img/TaskTab.PNG)
 
 Finally - the public IP of your server will be listed here - under the Network section. Connect to the server using the IP and port 2456!
-
+![Task Information Page](.img/TaskInfo.PNG)
 ---
 
 ## To-Do
