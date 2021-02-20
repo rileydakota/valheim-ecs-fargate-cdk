@@ -35,7 +35,7 @@ git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
 npm i
 ```
 
-4. Configure any server settings you need to change in the code [here](lib/valheim-server-aws-cdk-stack.ts#66-82) - will absolutely want to change `SERVER_NAME`!
+4. Configure any server settings you need to change in the code [here](lib/valheim-server-aws-cdk-stack.ts#L66-82) - will absolutely want to change `SERVER_NAME`!
 
 ```typescript
     const container = valheimTaskDefinition.addContainer("valheimContainer", {
