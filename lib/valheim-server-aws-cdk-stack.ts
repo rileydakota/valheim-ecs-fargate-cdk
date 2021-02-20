@@ -3,6 +3,8 @@ import * as ec2 from "@aws-cdk/aws-ec2";
 import * as ecs from "@aws-cdk/aws-ecs";
 import * as secretsManager from "@aws-cdk/aws-secretsmanager";
 import * as efs from "@aws-cdk/aws-efs";
+import { validateCfnTag } from "@aws-cdk/core";
+import { runInThisContext } from "vm";
 
 export class ValheimServerAwsCdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -126,5 +128,9 @@ export class ValheimServerAwsCdkStack extends cdk.Stack {
         toPort: 2458,
       })
     );
+
+    new cdk.CfnOutput(this, "serviceArn", {
+      value: valheimService.serviceArn,
+    });
   }
 }
