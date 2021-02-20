@@ -23,11 +23,13 @@ git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
 ```
 npm i
 ```
-4. Assuming you have already bootstrapped your account via the CDK (see [here](https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html) if not) - deploy the stack
+4. Configure any server settings you need to change in the code [here](lib/valheim-server-aws-cdk-stack.ts#66-82) - will absolutely want to change `SERVER_NAME`!
+
+5. Assuming you have already bootstrapped your account via the CDK (see [here](https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html) if not) - deploy the stack
 ```
 npx cdk deploy
 ```
-5. enjoy accidentally chopping trees onto your friends powered by AWS!
+6. enjoy accidentally chopping trees onto your friends powered by AWS!
 
 
 ## Configuration
