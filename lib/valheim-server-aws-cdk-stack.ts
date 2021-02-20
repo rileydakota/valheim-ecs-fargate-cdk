@@ -129,8 +129,16 @@ export class ValheimServerAwsCdkStack extends cdk.Stack {
       })
     );
 
-    new cdk.CfnOutput(this, "serviceArn", {
-      value: valheimService.serviceArn,
+    new cdk.CfnOutput(this, "serviceName", {
+      value: valheimService.serviceName,
     });
+
+    new cdk.CfnOutput(this, "clusterArn", {
+      value: fargateCluster.clusterName
+    });
+
+    new cdk.CfnOutput(this, "EFSId", {
+      value: serverFileSystem.fileSystemId
+    })
   }
 }
