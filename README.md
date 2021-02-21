@@ -66,8 +66,31 @@ Coming soon
 
 ### How do I find the IP of my server?
 
+#### Via the ecs-cli:
 
-Via the AWS Console - goto the ECS Service page (click the services dropdown and select ECS - or click [here](https://us-east-2.console.aws.amazon.com/ecs) if you are in us-east-2). From here - you will see a Cluster listed. Click the cluster name to continue to the details page.
+Install the ecs-cli by running the following (this assumes Linux - for other environments see [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html))
+
+```bash
+sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+```
+
+Using the Cluster Name outputted by successfully running the CDK template - run the following command:
+
+```bash
+ecs-cli ps --cluster YOUR_CLUSTER_NAME_GOES_HERE_CHANGEME
+```
+
+You will be presented with the public ip of your server as follows:
+
+```bash
+Name                                                                                                            State    Ports                                                                                     TaskDefinition                                            Health
+ValheimServerAwsCdkStack-fargateCluster7F3D820B-AxbOSXn1ghAs/8d190269c9df4d3e9709dccb89bdf3d8/valheimContainer  RUNNING  1.1.1.1:2456->2456/udp, 1.1.1.1:2457->2457/udp, 1.1.1.1:2458->2458/udp  ValheimServerAwsCdkStackvalheimTaskDefinitionB5805DE1:17  UNKNOWN
+```
+
+Game server runs on port 2456 (unless changed)
+
+#### Via the AWS Console: 
+goto the ECS Service page (click the services dropdown and select ECS - or click [here](https://us-east-2.console.aws.amazon.com/ecs) if you are in us-east-2). From here - you will see a Cluster listed. Click the cluster name to continue to the details page.
 ![ECS Service Page](.img/Cluster.PNG)
 
 At the bottom half of the screen - click the Tasks tab tab - you should see a "Task ID". Click the task id to continue to the next page.
