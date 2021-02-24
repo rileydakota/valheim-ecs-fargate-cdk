@@ -77,7 +77,7 @@ Making the assumption you have an AWS Account Already and a valid set of creds c
 aws secretsmanager create-secret --name valheimServerPass --secret-string '{"VALHEIM_SERVER_PASS":"SuperSecretServerPassword"}'
 ```
 
-2. Clone down our source code:
+2. Clone down our source code(then CD into where it is downloaded):
 
 ```bash
 git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
@@ -105,8 +105,8 @@ npm i
 ```
 npx cdk deploy
 ```
-
-6. enjoy accidentally chopping trees onto your friends powered by AWS!
+6. ![Final Output should look like this](https://i.imgur.com/lHEQMcL.jpg)
+7. Enjoy accidentally chopping trees onto your friends powered by AWS!
 
 ## Configuration
 
