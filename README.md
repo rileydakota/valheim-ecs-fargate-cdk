@@ -7,12 +7,66 @@ This is a CDK Project for spinning up a [Valheim](https://store.steampowered.com
 Uses [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) - thanks to lloesche for putting it together!
 
 ## Table of Contents
-- [Installation](#installationdeployment)
-- [Configuration](#configuration)
-- [Cost Information](#solution-cost-information)
-- [FAQ](#common-problemsfaq)
-  * [Find your server IP](#how-do-i-find-the-ip-of-my-server)
+- [valheim-ecs-fargate-cdk](#valheim-ecs-fargate-cdk)
+  - [Table of Contents](#table-of-contents)
+  - [Fresh Installation](#fresh-installation)
+  - [Installation/Deployment](#installationdeployment)
+  - [Configuration](#configuration)
+  - [Solution Cost Information](#solution-cost-information)
+  - [Common Problems/FAQ](#common-problemsfaq)
+    - [How do I find the IP of my server?](#how-do-i-find-the-ip-of-my-server)
+      - [Via the ecs-cli:](#via-the-ecs-cli)
+      - [Via the AWS Console:](#via-the-aws-console)
+  - [To-Do](#to-do)
 
+## Fresh Installation
+1. To follow [Installation/Deployment](#installationdeployment), you will first need to install the AWS CLI alongside the AWS CDK. The below will show you how to do so. 
+2. First we need to install Node.js which also install NPM. You can download it [here](https://nodejs.org/en/)
+3. Once Node is installed you can then install the AWS CLI from [here](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+   1. Make sure you install the AWS CLI here "C:\Program Files\Amazon\AWSCLIV2"
+   2. For other Operating Systems, it should be the same instructions below, but you'll need to research the documentation corresponding to the OS Install.
+   3. Next let's open up our AWS Console, where we will create a user in IAM that can create and interact with the CDK and CLI
+   4. Go to this [link](https://console.aws.amazon.com/iam/home#/home)
+   5. Click "Users" on the left hand side
+   6. Add User
+   7. UserName: Make it something meaningful that way you know where it is being used. I used "AWSCDKValheim"
+      1. Check "Programmatic access"
+   8. Add the user to the Admin group by checking the box next to it.
+   9. Click "Next:Tags", Don't need to do anything here.
+   10. Click "Next:Review"
+   11. Click "Create User"
+   12. On the next screen you will have two very important columns:
+       1.  "Access key ID"
+       2.  "Secret access key"
+       3.  **KEEP THIS SCREEN OPEN!**
+   13. Next we will open a command prompt and type the following "aws configure"
+       1.  It will ask you for the AWS Access ID, which you can copy from the AWS Console **(12.1)**
+       2.  Your AWS Secret Access Key which is also in your console **(12.2)**
+       3.  Default Region Name: You can find this by opening [this](https://us-east-2.console.aws.amazon.com/console/home)
+           1.  Click on the Region which is in between your Username & Support. Mine is us-east-2
+       4. Default output format: you can leave blank and hit enter. 
+   14. Next we will install the CDK, run this command inside of your command prompt "npm install -g aws-cdk"
+   15. After that we will bootstrap the account with the CDK so we can interact via Command Line. 
+   16. Run the command "cdk bootstrap aws://XXXX/us-east-2"
+       1.  Replace XXX with your account number. If you login to the console where you got your region, click on your username and there is a number you can copy next to "My Account" 
+       2.  Replace "us-east-2" with the region you specified above in step **(13.3.1)**
+       3.  Run the command and you should see the output below
+```bash
+⏳  Bootstrapping environment aws://YOURACCOUNTNUMBER/us-east-2...
+CDKToolkit: creating CloudFormation changeset...
+ 0/3 | 5:37:16 PM | REVIEW_IN_PROGRESS   | AWS::CloudFormation::Stack | CDKToolkit User Initiated
+ 0/3 | 5:37:22 PM | CREATE_IN_PROGRESS   | AWS::CloudFormation::Stack | CDKToolkit User Initiated
+ 0/3 | 5:37:25 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket       | StagingBucket
+ 0/3 | 5:37:26 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket       | StagingBucket Resource creation Initiated
+ 3/3 | 5:37:47 PM | CREATE_COMPLETE      | AWS::S3::Bucket       | StagingBucket
+ 3/3 | 5:37:49 PM | CREATE_IN_PROGRESS   | AWS::S3::BucketPolicy | StagingBucketPolicy
+ 3/3 | 5:37:50 PM | CREATE_IN_PROGRESS   | AWS::S3::BucketPolicy | StagingBucketPolicy Resource creation Initiated
+ 3/3 | 5:37:50 PM | CREATE_COMPLETE      | AWS::S3::BucketPolicy | StagingBucketPolicy
+ 3/3 | 5:37:51 PM | CREATE_COMPLETE      | AWS::CloudFormation::Stack | CDKToolkit
+ ✅  Environment aws://YOURACCOUNTNUMBER/us-east-2 bootstrapped.
+ ```
+ 17. If you see this detail, then Congrats! You have successfully configured your local machine to use the AWS CLI and CDK. If you need anymore assistance feel free to open an issue and we can help. 
+ 18. The below instructions will help you finish deploying this to AWS ECS Fargate. Good luck in Valheim!
 ## Installation/Deployment
 
 Making the assumption you have an AWS Account Already and a valid set of creds configured:
