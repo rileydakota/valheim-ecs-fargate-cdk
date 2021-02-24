@@ -26,28 +26,17 @@ Uses [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) 
    1. Make sure you install the AWS CLI here "C:\Program Files\Amazon\AWSCLIV2"
    2. For other Operating Systems, it should be the same instructions below, but you'll need to research the documentation corresponding to the OS Install.
    3. Next let's open up our AWS Console, where we will create a user in IAM that can create and interact with the CDK and CLI
-   4. Go to this [link](https://console.aws.amazon.com/iam/home#/home)
-   5. Click "Users" on the left hand side
-   6. Add User
-   7. UserName: Make it something meaningful that way you know where it is being used. I used "AWSCDKValheim"
-      1. Check "Programmatic access"
-   8. Add the user to the Admin group by checking the box next to it.
-   9. Click "Next:Tags", Don't need to do anything here.
-   10. Click "Next:Review"
-   11. Click "Create User"
-   12. On the next screen you will have two very important columns:
-       1.  "Access key ID"
-       2.  "Secret access key"
-       3.  **KEEP THIS SCREEN OPEN!**
-   13. Next we will open a command prompt and type the following "aws configure"
-       1.  It will ask you for the AWS Access ID, which you can copy from the AWS Console **(12.1)**
-       2.  Your AWS Secret Access Key which is also in your console **(12.2)**
+   4. Go to this link and follow the instructions there to make a user in IAM and grant them the correct rights [link](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-creds)
+       1.  **KEEP THE FINAL SCREEN OPEN WHICH HAS YOUR Access key ID && Secret access key!**
+   5.  Next we will open a command prompt and type the following "aws configure"
+       1.  It will ask you for the AWS Access ID, which you can copy from the AWS Console **(4.1)**
+       2.  Your AWS Secret Access Key which is also in your console **(4.2)**
        3.  Default Region Name: You can find this by opening [this](https://us-east-2.console.aws.amazon.com/console/home)
            1.  Click on the Region which is in between your Username & Support. Mine is us-east-2
        4. Default output format: you can leave blank and hit enter. 
-   14. Next we will install the CDK, run this command inside of your command prompt "npm install -g aws-cdk"
-   15. After that we will bootstrap the account with the CDK so we can interact via Command Line. 
-   16. Run the command "cdk bootstrap aws://XXXX/us-east-2"
+   6.  Next we will install the CDK, run this command inside of your command prompt "npm install -g aws-cdk"
+   7.  After that we will bootstrap the account with the CDK so we can interact via Command Line. 
+   8.  Run the command "cdk bootstrap aws://XXXX/us-east-2"
        1.  Replace XXX with your account number. If you login to the console where you got your region, click on your username and there is a number you can copy next to "My Account" 
        2.  Replace "us-east-2" with the region you specified above in step **(13.3.1)**
        3.  Run the command and you should see the output below
