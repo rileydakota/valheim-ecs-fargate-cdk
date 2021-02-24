@@ -146,5 +146,5 @@ Finally - the public IP of your server will be listed here - under the Network s
 
 ## To-Do
 
-1. Add in via the CLI an ability to return your ServerIP if it is restarted
-2. Add in ability to auto-restart servers with a specified time
+1. Add in via the CLI an ability to return your ServerIP if it is restarted.
+2. Add in ability to auto-restart servers with a specified time.
