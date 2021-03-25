@@ -46,10 +46,16 @@ npm i
         SERVER_PORT: "2456",
 ```
 
+5. Decide if you want the optional AWS App gateway lambda endpoints to start and stop your server and get the server status. If you do or don't want them, then update [here](bin/valheim-server-aws-cdk.ts#L29)
+
+```typescript
+new ValheimServer(app, "ValheimServer", {addAppGatewayStartStopStatus: true, appGatewayStartStopPassword: "changeme"});
+```
+
 5. Assuming you have already bootstrapped your account via the CDK (see [here](https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html) if not) - deploy the stack
 
 ```
-npx cdk deploy
+npx cdk deploy --all
 ```
 
 6. enjoy accidentally chopping trees onto your friends powered by AWS!
