@@ -78,6 +78,7 @@ Install the ecs-cli by running the following (this assumes Linux - for other env
 
 ```bash
 sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+sudo chmod +x /usr/local/bin/ecs-cli
 ```
 
 Using the Cluster Name outputted by successfully running the CDK template - run the following command:
