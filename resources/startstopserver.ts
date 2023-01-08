@@ -16,7 +16,7 @@ Inputs (into code):
 */
 "use strict";
 
-const { ECSClient, UpdateServiceCommand } = require( '@aws-sdk/client-ecs');
+import { ECSClient, UpdateServiceCommand } from '@aws-sdk/client-ecs';
 
 //Set the AWS Region
 const REGION = process.env.REGION; 

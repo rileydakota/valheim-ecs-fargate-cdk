@@ -15,8 +15,8 @@ Inputs (into code):
 */
 "use strict";
 
-const { ECSClient, ListServicesCommand, DescribeServicesCommand, ListTasksCommand, DescribeTasksCommand } = require('@aws-sdk/client-ecs');
-const { EC2Client, DescribeNetworkInterfacesCommand } = require('@aws-sdk/client-ec2');
+import { ECSClient, ListServicesCommand, DescribeServicesCommand, ListTasksCommand, DescribeTasksCommand } from '@aws-sdk/client-ecs';
+import { EC2Client, DescribeNetworkInterfacesCommand } from '@aws-sdk/client-ec2';
 
 //Set the AWS Region
 const REGION = process.env.REGION;
