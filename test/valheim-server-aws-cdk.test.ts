@@ -1,25 +1,15 @@
-import {
-  expect as expectCDK,
-  matchTemplate,
-  MatchStyle,
-} from "@aws-cdk/assert";
-import * as cdk from "@aws-cdk/core";
-import * as ValheimServerAwsCdk from "../lib/valheim-server-aws-cdk-stack";
+import { Stack } from "aws-cdk-lib";
+import { Template } from "aws-cdk-lib/assertions";
+import { ValheimServerAwsCdkStack } from "../lib/valheim-server-aws-cdk-stack";
 
-test("Empty Stack", () => {
-  const app = new cdk.App();
-  // WHEN
-  const stack = new ValheimServerAwsCdk.ValheimServerAwsCdkStack(
-    app,
-    "MyTestStack"
-  );
-  // THEN
-  expectCDK(stack).to(
-    matchTemplate(
-      {
-        Resources: {},
-      },
-      MatchStyle.EXACT
-    )
-  );
-});
+describe("Valheim Server stacks", () => {
+  test("Snapshot", () => {
+    const stack = new Stack();
+    new ValheimServerAwsCdkStack(
+      stack,
+      "MyTestStack"
+    );
+  
+    expect(Template.fromStack(stack)).toMatchSnapshot();
+  });
+})
