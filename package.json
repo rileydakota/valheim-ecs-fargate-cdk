@@ -25,6 +25,7 @@
     "@aws-sdk/client-ec2": "^3.245.0",
     "@aws-sdk/client-ecs": "^3.245.0",
     "aws-cdk-lib": "^2.59.0",
-    "constructs": "^10.1.213"
+    "constructs": "^10.1.213",
+    "dotenv": "^16.0.3"
   }
 }

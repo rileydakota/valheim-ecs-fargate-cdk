@@ -3,8 +3,10 @@ import { ValheimServerAwsCdkStack } from "../lib/valheim-server-aws-cdk-stack";
 import { LambdaEcsFargateUpdownstatusStack } from '../lib/lambda-ecs-fargate-updownstatus-stack';
 import { Construct } from "constructs";
 import { App, Fn } from "aws-cdk-lib";
+import { config } from "dotenv";
+config();
 
-class ValheimServerProps {
+interface ValheimServerProps {
     addAppGatewayStartStopStatus: boolean;
     appGatewayStartStopPassword?: string;
 }
@@ -25,6 +27,13 @@ class ValheimServer extends Construct {
     }
 }
 
+const APPGW_START_STOP_PASSWORD = process.env.APPGW_START_STOP_PASSWORD;
+
+const valheimServerConfig: ValheimServerProps = {
+    addAppGatewayStartStopStatus: !APPGW_START_STOP_PASSWORD || APPGW_START_STOP_PASSWORD !== "changeme",
+    appGatewayStartStopPassword: APPGW_START_STOP_PASSWORD,
+};
+
 const app = new App();
-new ValheimServer(app, "ValheimServer", {addAppGatewayStartStopStatus: true, appGatewayStartStopPassword: "changeme"});
+new ValheimServer(app, "ValheimServer", valheimServerConfig);
 app.synth();

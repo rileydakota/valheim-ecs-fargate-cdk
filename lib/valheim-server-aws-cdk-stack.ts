@@ -61,27 +61,16 @@ export class ValheimServerAwsCdkStack extends Stack {
       }
     );
 
+    // Valheim server environment variables
+    // https://github.com/lloesche/valheim-server-docker#environment-variables
+    const environment: Record<string, string> = Object.entries(process.env)
+      .filter(([key]) => key.startsWith("VALHEIM_DOCKER_"))
+      .reduce((a, [k, v]) => ({ ...a, [k]: v}), {});
+
     const container = valheimTaskDefinition.addContainer("valheimContainer", {
       image: ContainerImage.fromRegistry("lloesche/valheim-server"),
       logging: LogDrivers.awsLogs({ streamPrefix: "ValheimServer" }),
-      environment: {
-        SERVER_NAME: "VALHEIM-SERVER-AWS-ECS",
-        SERVER_PORT: "2456",
-        WORLD_NAME: "VALHEIM-WORLD-FILE",
-        SERVER_PUBLIC: "1",
-        UPDATE_INTERVAL: "900",
-        BACKUPS_INTERVAL: "3600",
-        BACKUPS_DIRECTORY: "/config/backups",
-        BACKUPS_MAX_AGE: "3",
-        BACKUPS_DIRECTORY_PERMISSIONS: "755",
-        BACKUPS_FILE_PERMISSIONS: "644",
-        CONFIG_DIRECTORY_PERMISSIONS: "755",
-        WORLDS_DIRECTORY_PERMISSIONS: "755",
-        WORLDS_FILE_PERMISSIONS: "644",
-        DNS_1: "10.0.0.2",
-        DNS_2: "10.0.0.2",
-        STEAMCMD_ARGS: "validate",
-      },
+      environment,
       secrets: {
         SERVER_PASS: Secret.fromSecretsManager(
           valheimServerPass,

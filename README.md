@@ -26,7 +26,7 @@ aws secretsmanager create-secret --name valheimServerPass --secret-string '{"VAL
 2. Clone down our source code:
 
 ```bash
-git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
+git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git && valheim-ecs-fargate-cdk
 ```
 
 3. Install dependencies:
@@ -35,24 +35,15 @@ git clone git@github.com:rileydakota/valheim-ecs-fargate-cdk.git
 npm i
 ```
 
-4. Configure any server settings you need to change in the code [here](lib/valheim-server-aws-cdk-stack.ts#L66-82) - will absolutely want to change `SERVER_NAME`!
+4. Setup the config
 
-```typescript
-    const container = valheimTaskDefinition.addContainer("valheimContainer", {
-      image: ecs.ContainerImage.fromRegistry("lloesche/valheim-server"),
-      logging: ecs.LogDrivers.awsLogs({ streamPrefix: "ValheimServer" }),
-      environment: {
-        SERVER_NAME: "YOUR_SERVER_NAME_HERE",
-        SERVER_PORT: "2456",
+```bash
+cp .env.example .env
 ```
 
-5. Decide if you want the optional AWS App gateway lambda endpoints to start and stop your server and get the server status. If you do or don't want them, then update [here](bin/valheim-server-aws-cdk.ts#L29)
+5. Decide if you want the optional AWS App gateway lambda endpoints to start and stop your server and get the server status. If you do, then change `APPGW_START_STOP_PASSWORD` in `.env`.
 
-```typescript
-new ValheimServer(app, "ValheimServer", {addAppGatewayStartStopStatus: true, appGatewayStartStopPassword: "changeme"});
-```
-
-5. Assuming you have already bootstrapped your account via the CDK (see [here](https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html) if not) - deploy the stack
+6. Assuming you have already bootstrapped your account via the CDK (see [here](https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html) if not) - deploy the stack
 
 ```
 npx cdk deploy --all
@@ -62,7 +53,10 @@ npx cdk deploy --all
 
 ## Configuration
 
-Coming soon
+### Valheim Server
+If you want to configure the Valheim server, then you can do so in `.env`. Environment variables with the `VALHEIM_DOCKER_` prefix will be used in the environment we run the docker image in. 
+
+To see a full list of possible environment variables, see [valheim-server-docker#environment-variables](https://github.com/lloesche/valheim-server-docker#environment-variables)
 
 ## Solution Cost Information
 
