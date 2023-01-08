@@ -30,7 +30,7 @@ exports.handler = (event, context, callback) => {
     let responseCode = 400;
     let message = "authentication failed";
 
-    var params = {
+    const params = {
         desiredCount: 1,
         service: SERVICE_NAME,
         cluster: CLUSTER_ARN

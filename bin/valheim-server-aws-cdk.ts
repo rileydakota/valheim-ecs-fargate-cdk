@@ -12,10 +12,10 @@ class ValheimServerProps {
 class ValheimServer extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props?: ValheimServerProps) {
         super(scope, id);
-        var ecsStack = new ValheimServerAwsCdkStack(app, "ValheimServerAwsCdkStack");
+        const ecsStack = new ValheimServerAwsCdkStack(app, "ValheimServerAwsCdkStack");
         if( props?.addAppGatewayStartStopStatus )
         {
-            var lambdaStack = new LambdaEcsFargateUpdownstatusStack(app, 'LambdaEcsFargateUpdownstatusStack', {
+            const lambdaStack = new LambdaEcsFargateUpdownstatusStack(app, 'LambdaEcsFargateUpdownstatusStack', {
                 serviceArn: cdk.Fn.importValue("fargateServiceName"),
                 clusterArn: cdk.Fn.importValue("fargateClusterName"),
                 startStopPassword: props.appGatewayStartStopPassword === undefined ? "" : props.appGatewayStartStopPassword,

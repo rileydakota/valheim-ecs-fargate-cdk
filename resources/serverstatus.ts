@@ -29,7 +29,7 @@ const ec2Client = new EC2Client({ region: REGION });
 exports.handler = async (event, context, callback) => {
 
 
-  var statusResults = await getIPFunction();
+  const statusResults = await getIPFunction();
   console.log("status results: " + JSON.stringify(statusResults));
 
   let response = {
@@ -53,7 +53,7 @@ async function getIPFunction() {
 
   try {
 
-    var ListTasksParams = {
+    const ListTasksParams = {
       servicesName: SERVICE_ARN,
       cluster: CLUSTER_ARN,
       desiredStatus: "RUNNING"
@@ -64,7 +64,7 @@ async function getIPFunction() {
     console.log(listTasks);
 
     if (listTasks.taskArns.length > 0) {
-      var describeTaskParams = {
+      const describeTaskParams = {
         cluster: CLUSTER_ARN,
         tasks: listTasks.taskArns
       };
@@ -74,11 +74,11 @@ async function getIPFunction() {
 
       const describeTasks = await client.send(describeTaskCommand);
       console.log(describeTasks);
-      var networkInterfaceId = describeTasks.tasks[0].attachments[0].details.find(x => x.name === "networkInterfaceId").value;
+      const networkInterfaceId = describeTasks.tasks[0].attachments[0].details.find(x => x.name === "networkInterfaceId").value;
 
       console.log("found network interfaceid " + networkInterfaceId);
 
-      var describeNetworkInterfacesParams = {
+      const describeNetworkInterfacesParams = {
         NetworkInterfaceIds: [networkInterfaceId]
       };
 
@@ -86,7 +86,7 @@ async function getIPFunction() {
 
       const networkInterfaces = await ec2Client.send(describeNetworkInterfacesCommand);
       console.log(networkInterfaces);
-      var publicIp = networkInterfaces.NetworkInterfaces.find(x => x.Association != undefined).Association.PublicIp;
+      const publicIp = networkInterfaces.NetworkInterfaces.find(x => x.Association != undefined).Association.PublicIp;
       console.log("found public IP " + publicIp);
       statusResults.running = true;
       statusResults.ip = publicIp + ":2456";
