@@ -56,7 +56,7 @@ export class ValheimServerAwsCdkStack extends Stack {
         compatibility: Compatibility.FARGATE,
         cpu: "2048",
         memoryMiB: "4096",
-        volumes: [],
+        volumes: [serverVolumeConfig],
         networkMode: NetworkMode.AWS_VPC,
       }
     );
