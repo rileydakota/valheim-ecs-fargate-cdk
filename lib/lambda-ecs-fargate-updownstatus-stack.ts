@@ -1,19 +1,19 @@
-import * as cdk from '@aws-cdk/core';
-import { Arn, Stack } from '@aws-cdk/core';
-import * as lambda_service from '../lib/lambda-ecs-fargate-updownstatus-service';
+import { Arn, Stack, StackProps } from "aws-cdk-lib";
+import { Construct } from "constructs";
+import { LambdaEcsFargateUpDownService } from "./lambda-ecs-fargate-updownstatus-service";
 
-interface MultiStackProps extends cdk.StackProps {
+interface MultiStackProps extends StackProps {
   serviceArn: Arn;
   clusterArn: Arn;
   startStopPassword: string;
 }
 
-export class LambdaEcsFargateUpdownstatusStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: MultiStackProps) {
+export class LambdaEcsFargateUpdownstatusStack extends Stack {
+  constructor(scope: Construct, id: string, props: MultiStackProps) {
     super(scope, id, props);
 
-    new lambda_service.LambdaEcsFargateUpDownService(this, 'Status', {
-      region: cdk.Stack.of(this).region,
+    new LambdaEcsFargateUpDownService(this, 'Status', {
+      region: Stack.of(this).region,
       serviceArn: props.serviceArn,
       clusterArn: props.clusterArn,
       startStopPassword: props.startStopPassword,
