@@ -58,11 +58,58 @@ If you want to configure the Valheim server, then you can do so in `.env`. Envir
 
 To see a full list of possible environment variables, see [valheim-server-docker#environment-variables](https://github.com/lloesche/valheim-server-docker#environment-variables)
 
+### Bootstrapping with existing world
+
+1. This must be a fresh depoyment. If `/config/worlds_local/` exists in the container, then we will not copy the files from S3 into the docker container.
+1. Create a ZIP file of your existing world.
+  * This MUST follow the folder structure at the bottom of the steps.
+  * The name of this ZIP file MUST match the BOOTSTRAP_WITH_WORLD_NAME environment variable (in `.env`).
+1. Update `BOOTSTRAP_WITH_WORLD_NAME` in `.env` to the same filename. 
+1. Deploy `npx cdk deploy --all`
+1. After depoying, double check and make sure that the world was loaded and it didn't error and create a new one.
+  * I would check for something like`Load world: MyCoolValheimServer (MyCoolValheimServer)`
+  * If this was a world from a previous version, then you should see a lot of `Old location found ...` messages.
+
+ZIP archive structure:
+```
+# kayo @ ClockTower in ~/workspace/valheim-ecs-fargate-cdk on git:bootstrap-world o [22:02:46] 
+$ unzip -l resources/worlds/valheim_backup_2023-01-08T09_26_00_00.zip
+Archive:  resources/worlds/valheim_backup_2023-01-08T09_26_00_00.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       39  2021-02-13 18:16   adminlist.txt
+       40  2021-02-13 18:16   bannedlist.txt
+       42  2021-02-13 18:16   permittedlist.txt
+      217  2021-02-12 20:26   Player-prev.log
+      217  2021-02-12 20:28   Player.log
+      218  2023-01-02 23:39   prefs
+        0  2023-01-08 20:52   worlds_local/
+ 69646068  2022-11-28 12:04   worlds_local/MyCoolValheimServer.db
+       44  2022-11-28 12:04   worlds_local/MyCoolValheimServer.fwl
+---------                     -------
+141326454                     13 files
+```
+
 ## Solution Cost Information
 
 Coming soon
 
 ## Common Problems/FAQ
+
+### Accessing the docker container
+
+This assumes that you either have credentials that give you admin roles or have setup an IAM role with the required permsissions.
+
+```bash
+aws ecs execute-command 
+  --region <REGION> \
+  --cluster <YOUR_CLUSTER_NAME_GOES_HERE_CHANGEME> \
+  --task <YOUR_TASK_ID_GOES_HERE_CHANGEME>  \
+  --command "/bin/bash" \
+  --interactive
+```
+
+Now you should have an interactive shell you can use to explore the container.
 
 ### How do I find the IP of my server?
 
