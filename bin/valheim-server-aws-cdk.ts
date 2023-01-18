@@ -42,8 +42,8 @@ class ValheimServer extends Construct {
 
         if(props?.addAppGatewayStartStopStatus) {
             const lambdaStack = new LambdaEcsFargateUpdownstatusStack(this, 'LambdaEcsFargateUpdownstatusStack', {
-                serviceArn: Fn.importValue("fargateServiceName"),
-                clusterArn: Fn.importValue("fargateClusterName"),
+                serviceArn: ecsStack.valheimService.serviceArn,
+                clusterArn: ecsStack.fargateCluster.clusterArn,
                 startStopPassword: props.appGatewayStartStopPassword === undefined ? "" : props.appGatewayStartStopPassword,
             });
             lambdaStack.addDependency(ecsStack);

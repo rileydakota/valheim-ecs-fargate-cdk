@@ -23,6 +23,10 @@ interface ValheimServerAwsCdkStackProps extends StackProps {
 const ACTUAL_VALHEIM_WORLD_LOCATION = "/config/";
 
 export class ValheimServerAwsCdkStack extends Stack {
+
+  readonly valheimService: FargateService;
+  readonly fargateCluster: Cluster;
+
   constructor(scope: Construct, id: string, props?: ValheimServerAwsCdkStackProps) {
     super(scope, id, props);
 
@@ -50,7 +54,7 @@ export class ValheimServerAwsCdkStack extends Stack {
       enableDnsSupport: true,
       enableDnsHostnames: true,
     });
-    const fargateCluster = new Cluster(this, "fargateCluster", {
+    this.fargateCluster = new Cluster(this, "fargateCluster", {
       vpc: vpc,
     });
 
@@ -136,8 +140,8 @@ export class ValheimServerAwsCdkStack extends Stack {
 
     container.addMountPoints(mountPoint);
 
-    const valheimService = new FargateService(this, "valheimService", {
-      cluster: fargateCluster,
+    this.valheimService = new FargateService(this, "valheimService", {
+      cluster: this.fargateCluster,
       taskDefinition: valheimTaskDefinition,
       desiredCount: 1,
       assignPublicIp: true,
@@ -146,8 +150,8 @@ export class ValheimServerAwsCdkStack extends Stack {
       enableExecuteCommand: true,
     });
 
-    serverFileSystem.connections.allowDefaultPortFrom(valheimService);
-    valheimService.connections.allowFromAnyIpv4(
+    serverFileSystem.connections.allowDefaultPortFrom(this.valheimService);
+    this.valheimService.connections.allowFromAnyIpv4(
       new Port({
         protocol: Protocol.UDP,
         stringRepresentation: "valheimPorts",
