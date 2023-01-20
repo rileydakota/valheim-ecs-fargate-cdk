@@ -35,7 +35,7 @@ const ec2Client = new EC2Client({ region: REGION });
 /**
  * Everything here has the assumption there is only one task.
  */
-const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
+export const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
   console.log(`New getServerStatus request: ${JSON.stringify(event)}`);
   console.log(`With context: ${JSON.stringify(context)}`);
 
@@ -50,7 +50,6 @@ const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: 
   };
 };
 
-export default handler;
 
 async function getIPFunction() {
 
