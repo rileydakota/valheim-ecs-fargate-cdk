@@ -1,4 +1,4 @@
-/* 
+/*
 
 This code was created from sample code provided for the AWS SDK for JavaScript version 3 (v3),
 which is available at https://github.com/aws/aws-sdk-js-v3. This example is in the 'AWS SDK for JavaScript v3 Developer Guide' at
@@ -35,7 +35,7 @@ const ec2Client = new EC2Client({ region: REGION });
 /**
  * Everything here has the assumption there is only one task.
  */
-const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
+export const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
   console.log(`New getServerStatus request: ${JSON.stringify(event)}`);
   console.log(`With context: ${JSON.stringify(context)}`);
 
@@ -50,7 +50,6 @@ const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: 
   };
 };
 
-export default handler;
 
 async function getIPFunction() {
 
@@ -62,15 +61,15 @@ async function getIPFunction() {
 
   try {
 
-    const listTasksCommandInput: ListTasksCommandInput = { 
+    const listTasksCommandInput: ListTasksCommandInput = {
       serviceName: SERVICE_ARN,
       cluster: CLUSTER_ARN,
       desiredStatus: "RUNNING"
     }
     const listTasksCommandResult = await ecsClient.send(new ListTasksCommand(listTasksCommandInput));
-    console.log(listTasksCommandResult);
+    console.log("ECS List Tasks Command Result: " + listTasksCommandResult);
 
-    if (!listTasksCommandResult.taskArns || listTasksCommandResult.taskArns.length <= 0) return;
+    if (!listTasksCommandResult.taskArns || listTasksCommandResult.taskArns.length <= 0) return statusResults;
 
     const networkInterfaceId = await getNetworkInterfaceId(CLUSTER_ARN, listTasksCommandResult.taskArns);
 
@@ -79,7 +78,7 @@ async function getIPFunction() {
     }
     const describeNetworkInterfacesResult = await ec2Client.send(new DescribeNetworkInterfacesCommand(describeNetworkInterfacesInput));
 
-    if (!describeNetworkInterfacesResult.NetworkInterfaces || describeNetworkInterfacesResult.NetworkInterfaces.length <= 0) return;
+    if (!describeNetworkInterfacesResult.NetworkInterfaces || describeNetworkInterfacesResult.NetworkInterfaces.length <= 0) return statusResults;
     const publicIp = describeNetworkInterfacesResult.NetworkInterfaces.find(x => x.Association != undefined)?.Association?.PublicIp;
 
     console.log("found public IP " + publicIp);
@@ -111,7 +110,7 @@ const getNetworkInterfaceId = async (cluster: string, tasks: string[]): Promise<
 
     const networkInterfaceId = firstAttachment.details?.find(d => d.name === 'networkInterfaceId')?.value;
     if (!networkInterfaceId) throw new Error(`Could not find a network interface on given attachment: ${JSON.stringify(firstAttachment)}`);
-    
+
     console.debug(`Found interface "${networkInterfaceId}"`);
     return networkInterfaceId;
   } catch (err) {
