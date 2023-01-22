@@ -16,8 +16,8 @@ Inputs (into code):
 */
 "use strict";
 
-import {ECSClient, UpdateServiceCommand} from '@aws-sdk/client-ecs';
-import {APIGatewayEvent, APIGatewayProxyHandler, Context} from 'aws-lambda';
+import { ECSClient, UpdateServiceCommand } from '@aws-sdk/client-ecs';
+import { APIGatewayEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
 
 //Set the AWS Region
 const REGION = process.env.REGION;
