@@ -24,8 +24,10 @@
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.245.0",
     "@aws-sdk/client-ecs": "^3.245.0",
-    "aws-cdk-lib": "^2.59.0",
+    "aws-cdk-lib": "^2.67.0",
+    "cdk-monitoring-constructs": "^3.0.0",
     "constructs": "^10.1.213",
+    "discord.js": "^14.7.1",
     "dotenv": "^16.0.3"
   }
 }

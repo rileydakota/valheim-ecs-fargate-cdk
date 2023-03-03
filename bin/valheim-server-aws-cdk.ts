@@ -3,11 +3,11 @@ import "source-map-support/register";
 import { ValheimServerAwsCdkStack } from "../lib/valheim-server-aws-cdk-stack";
 import { LambdaEcsFargateUpdownstatusStack } from '../lib/lambda-ecs-fargate-updownstatus-stack';
 import { Construct } from "constructs";
-import { Annotations, App, Fn } from "aws-cdk-lib";
+import { Annotations, App } from "aws-cdk-lib";
 import { config } from "dotenv";
-import { readdir } from "fs/promises";
 import WorldBootstrapResourcesStack from "../lib/world-bootstrap-resources-stack";
 import { readdirSync } from "fs";
+import { MonitoringStack } from "../lib/monitoring";
 config();
 
 const BOOTSTRAP_WITH_WORLD_NAME = process.env.BOOTSTRAP_WITH_WORLD_NAME;
@@ -48,6 +48,11 @@ class ValheimServer extends Construct {
             });
             lambdaStack.addDependency(ecsStack);
         }
+
+        new MonitoringStack(this, "ValheimServerMonitoringStack", {
+            fargateService: ecsStack.valheimService,
+            discordWebhookUrl: DISCORD_WEBHOOK_URL_FOR_ALARMS,
+        })
     }
 }
 
@@ -64,6 +69,7 @@ const getWorldAssetLocations = () => {
 const app = new App();
 const worldAssetLocations = getWorldAssetLocations();
 const APPGW_START_STOP_PASSWORD = process.env.APPGW_START_STOP_PASSWORD;
+const DISCORD_WEBHOOK_URL_FOR_ALARMS = process.env.DISCORD_WEBHOOK_URL_FOR_ALARMS;
 
 new ValheimServer(app, "ValheimServer", {
     worldAssetLocations,
