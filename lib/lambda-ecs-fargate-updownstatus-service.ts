@@ -1,10 +1,9 @@
-import * as core from "@aws-cdk/core";
-import * as apigateway from "@aws-cdk/aws-apigateway";
-import * as lambda from "@aws-cdk/aws-lambda";
-import * as lambdanodejs from "@aws-cdk/aws-lambda-nodejs";
-import { Policy, PolicyStatement, PolicyProps, Effect } from "@aws-cdk/aws-iam"
-import { Stack, Arn } from "@aws-cdk/core";
-import { EndpointType } from "@aws-cdk/aws-apigateway";
+import { Arn } from "aws-cdk-lib";
+import { EndpointType, LambdaIntegration, RestApi } from "aws-cdk-lib/aws-apigateway";
+import { Effect, Policy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { Runtime } from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { Construct } from "constructs";
 
 export interface LambdaEcsFargateUpDownServiceOptions {
   region: string;
@@ -13,12 +12,12 @@ export interface LambdaEcsFargateUpDownServiceOptions {
   startStopPassword: string;
 }
 
-export class LambdaEcsFargateUpDownService extends core.Construct {
-  constructor(scope: core.Construct, id: string, props: LambdaEcsFargateUpDownServiceOptions) {
+export class LambdaEcsFargateUpDownService extends Construct {
+  constructor(scope: Construct, id: string, props: LambdaEcsFargateUpDownServiceOptions) {
     super(scope, id);
 
-    const serverStatusHandler = new lambdanodejs.NodejsFunction(this, "serverStatus", {
-      runtime: lambda.Runtime.NODEJS_10_X, // So we can use async 
+    const serverStatusHandler = new NodejsFunction(this, "serverStatus", {
+      runtime: Runtime.NODEJS_18_X,
       entry: 'resources/serverstatus.ts',
       handler: "handler",
       bundling: {
@@ -46,8 +45,8 @@ export class LambdaEcsFargateUpDownService extends core.Construct {
     });
     serverStatusHandler.role?.attachInlinePolicy(ecsStatusPolicy);
 
-    const startStopHandler = new lambdanodejs.NodejsFunction(this, "startstop", {
-      runtime: lambda.Runtime.NODEJS_10_X, // So we can use async 
+    const startStopHandler = new NodejsFunction(this, "startstop", {
+      runtime: Runtime.NODEJS_18_X,
       entry: 'resources/startstopserver.ts',
       handler: "handler",
       bundling: {
@@ -74,7 +73,7 @@ export class LambdaEcsFargateUpDownService extends core.Construct {
     startStopHandler.role?.attachInlinePolicy(ecsStartStopPolicy);
 
 
-    const api = new apigateway.RestApi(this, "startstopserver-api", {
+    const api = new RestApi(this, "startstopserver-api", {
       restApiName: "Start Stop Status for ECS service",
       description: "This service allows you to start / stop and get the status of an ECS task.",
       endpointTypes: [ EndpointType.REGIONAL ]
@@ -83,10 +82,10 @@ export class LambdaEcsFargateUpDownService extends core.Construct {
     const startStopResource = api.root.addResource("startstop");
     const serverStatusResource = api.root.addResource("serverstatus");
 
-    const serverStatusIntegration = new apigateway.LambdaIntegration(serverStatusHandler, {
+    const serverStatusIntegration = new LambdaIntegration(serverStatusHandler, {
     });
 
-    const startStopIntegration = new apigateway.LambdaIntegration(startStopHandler, {
+    const startStopIntegration = new LambdaIntegration(startStopHandler, {
     });
 
     serverStatusResource.addMethod("ANY", serverStatusIntegration); // GET /
