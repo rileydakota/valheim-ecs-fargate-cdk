@@ -35,7 +35,7 @@ const ec2Client = new EC2Client({ region: REGION });
 /**
  * Everything here has the assumption there is only one task.
  */
-const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
+export const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
   console.log(`New getServerStatus request: ${JSON.stringify(event)}`);
   console.log(`With context: ${JSON.stringify(context)}`);
 
@@ -50,8 +50,6 @@ const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: 
   };
 };
 
-export default handler;
-
 async function getIPFunction() {
 
   // Define the object that will hold the data values returned
@@ -62,7 +60,7 @@ async function getIPFunction() {
 
   try {
 
-    const listTasksCommandInput: ListTasksCommandInput = { 
+    const listTasksCommandInput: ListTasksCommandInput = {
       serviceName: SERVICE_ARN,
       cluster: CLUSTER_ARN,
       desiredStatus: "RUNNING"
@@ -70,7 +68,7 @@ async function getIPFunction() {
     const listTasksCommandResult = await ecsClient.send(new ListTasksCommand(listTasksCommandInput));
     console.log(listTasksCommandResult);
 
-    if (!listTasksCommandResult.taskArns || listTasksCommandResult.taskArns.length <= 0) return;
+    if (!listTasksCommandResult.taskArns || listTasksCommandResult.taskArns.length <= 0) return statusResults;
 
     const networkInterfaceId = await getNetworkInterfaceId(CLUSTER_ARN, listTasksCommandResult.taskArns);
 
@@ -79,7 +77,7 @@ async function getIPFunction() {
     }
     const describeNetworkInterfacesResult = await ec2Client.send(new DescribeNetworkInterfacesCommand(describeNetworkInterfacesInput));
 
-    if (!describeNetworkInterfacesResult.NetworkInterfaces || describeNetworkInterfacesResult.NetworkInterfaces.length <= 0) return;
+    if (!describeNetworkInterfacesResult.NetworkInterfaces || describeNetworkInterfacesResult.NetworkInterfaces.length <= 0) return statusResults;
     const publicIp = describeNetworkInterfacesResult.NetworkInterfaces.find(x => x.Association != undefined)?.Association?.PublicIp;
 
     console.log("found public IP " + publicIp);
