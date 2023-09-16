@@ -26,7 +26,7 @@ const SERVICE_NAME = process.env.SERVICE_NAME;
 const CLUSTER_ARN = process.env.CLUSTER_ARN; 
 const PASSWORD = process.env.PASSWORD;
 
-const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
+export const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: Context) => {
     console.log("request: " + JSON.stringify(event));
     let responseCode = 400;
     let message = "authentication failed";
@@ -54,10 +54,8 @@ const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: 
 
             const updateCommand = new UpdateServiceCommand(params);
 
-            client.send(updateCommand).then(
-                (data) => {console.log(data);},
-                (err) => {    console.log(err);}
-            );
+            const updateCommandResult = await client.send(updateCommand);
+            console.log(updateCommandResult);
         }
     }
 
@@ -78,5 +76,3 @@ const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent, context: 
         body: JSON.stringify(responseBody)
     };
 };
-
-export default handler;
